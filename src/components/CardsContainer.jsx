@@ -6,59 +6,54 @@ export default function CardsContainer({
   clickedIds,
   updateBestScore,
   bestScore,
+  isGameOver,
+  updateIsGameOver,
 }) {
-  const [isGameOver, setIsGameOver] = useState(true);
-
-  const cardsData = getImages(8);
-
-  const handleGameOverClick = () => {
-    setIsGameOver(false);
-  };
+  const [cardsData, setCardsData] = useState([]);
 
   useEffect(() => {
-    if (!isGameOver) return;
-    document.addEventListener('click', handleGameOverClick);
-    return () => document.removeEventListener('click', handleGameOverClick);
-  }, [isGameOver]);
+    let ignore = false;
+    getImages(8).then((data) => {
+      if (!ignore) {
+        setCardsData(data);
+      }
+      console.log('test');
+    });
+
+    return () => (ignore = true);
+  }, []);
 
   const handleCardClick = (id) => {
     if (clickedIds.includes(id)) {
       clickedIds.length > bestScore && updateBestScore(clickedIds.length);
+      updateIsGameOver();
+      updateClickedIds([]);
       return;
     }
-    updateClickedIds([...clickedIds, id]);
+    updateClickedIds((prev) => [...prev, id]);
   };
 
   const cardsList = cardsData.map((cardData) => (
     <Card
-      src={cardData.src}
+      src={cardData.first_src ? cardData.first_src : cardData.second_src}
       name={cardData.name}
       key={cardData.id}
-      onclick={() => handleCardClick(cardData.id)}
+      onClick={() => handleCardClick(cardData.id)}
     />
   ));
 
   return (
-    <>
+    <div className={isGameOver ? 'container onGameOver' : 'container'}>
       {cardsList}
-      <GameMsg isGameOver={isGameOver} />
-    </>
-  );
-}
-
-function Card({ src, name, onclick }) {
-  return (
-    <div className="card" onClick={onclick}>
-      <img src={src} alt={name} />
-      <p>{name}</p>
     </div>
   );
 }
 
-function GameMsg({ isGameOver }) {
-  return isGameOver ? (
-    <div className={isGameOver ? 'showMsg' : 'hideMsg'}>Game Over...</div>
-  ) : (
-    ''
+function Card({ src, name, onClick }) {
+  return (
+    <div className="card" onClick={onClick}>
+      <img src={src} alt={name} />
+      <p>{name}</p>
+    </div>
   );
 }

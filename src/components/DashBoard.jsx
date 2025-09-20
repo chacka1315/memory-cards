@@ -1,4 +1,4 @@
-export default function DashBoard({ score, bestScore }) {
+export default function DashBoard({ score, bestScore, restart }) {
   return (
     <header className="dashBoard">
       <div id="logo">
@@ -8,6 +8,7 @@ export default function DashBoard({ score, bestScore }) {
         </svg>
         <h1>Pokecard</h1>
       </div>
+      <button type="button" onClick={restart}></button>
       <div className="scores">
         <p>Score : {score}</p>
         <p>Best score : {bestScore}</p>
