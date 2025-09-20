@@ -1,4 +1,5 @@
-export default function DashBoard({ score, bestScore, restart }) {
+import '../styles/dashBoard.css';
+export default function DashBoard({ score, bestScore, isGameOver, restart }) {
   return (
     <header className="dashBoard">
       <div id="logo">
@@ -8,7 +9,14 @@ export default function DashBoard({ score, bestScore, restart }) {
         </svg>
         <h1>Pokecard</h1>
       </div>
-      <button type="button" onClick={restart}></button>
+      <button type="button" className="gameDetails">
+        ?
+      </button>
+
+      <button type="button" onClick={restart} disabled={!isGameOver}>
+        Restart
+      </button>
+
       <div className="scores">
         <p>Score : {score}</p>
         <p>Best score : {bestScore}</p>

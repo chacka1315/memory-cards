@@ -1,0 +1,50 @@
+.dashBoard {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  align-items: center;
+  padding: 0 40px;
+  box-shadow: var(--shadow-on-white);
+  position: sticky;
+  top: 0;
+}
+
+#logo {
+  font-size: 2rem;
+  display: flex;
+}
+
+#logo svg {
+  fill: rgb(231, 176, 72);
+  width: 100px;
+}
+
+.dashBoard button {
+  width: 100px;
+  font-size: 20px;
+  border: none;
+  height: 50px;
+  border-radius: 10px;
+  color: var(--color-secondary);
+  font-weight: 700;
+  background-color: rgb(231, 176, 72);
+}
+
+.dashBoard button:disabled {
+  background-color: rgb(231, 176, 72);
+  visibility: hidden;
+}
+
+.dashBoard button.gameDetails {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-primary);
+  border: var(--color-secondary) 4px solid;
+}

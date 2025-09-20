@@ -8,14 +8,20 @@ function App() {
   const [bestScore, setBestScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
 
+  const handleRestart = () => {
+    setClickedIds([]);
+    setIsGameOver(false);
+  };
+
   return (
-    <>
+    <div className="gameLayout">
       <DashBoard
         score={clickedIds.length}
         bestScore={bestScore}
-        restart={() => setIsGameOver(false)}
+        isGameOver={isGameOver}
+        restart={handleRestart}
       />
-      <GameMsg isGameOver={isGameOver} />
+      <GameMsg isGameOver={isGameOver} score={clickedIds.length} />
       <CardsContainer
         updateClickedIds={setClickedIds}
         clickedIds={clickedIds}
@@ -24,15 +30,16 @@ function App() {
         isGameOver={isGameOver}
         updateIsGameOver={() => setIsGameOver(true)}
       />
-    </>
+    </div>
   );
 }
-function GameMsg({ isGameOver }) {
+function GameMsg({ isGameOver, score }) {
   return (
     <div
-      className={isGameOver ? 'gameOverMsg hideMsg' : ' gameOverMsg showMsg'}
+      className={isGameOver ? 'gameOverMsg showMsg ' : ' gameOverMsg hideMsg'}
     >
-      Game Over...
+      <p>Game Over...</p>
+      <p>Score : {score}</p>
     </div>
   );
 }

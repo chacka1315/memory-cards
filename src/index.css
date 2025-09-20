@@ -1,0 +1,38 @@
+/* reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --color-primary: #199de4;
+  --color-secondary: #fff;
+  --color-tertiary: #faf3f3;
+  --shadow-on-white: rgba(0, 0, 0, 0.3) 0px 2px 4px 0px;
+  --font-family: 'Lexend';
+  --card-font-size: 30px;
+}
+
+body {
+  font-family:
+    var(--font-family),
+    system-ui,
+    -apple-system,
+    sans-serif;
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import getImages from '../services/images-data';
+import '../styles/cardContainer.css';
 
 export default function CardsContainer({
   updateClickedIds,
@@ -23,14 +24,16 @@ export default function CardsContainer({
     return () => (ignore = true);
   }, []);
 
+  useEffect(() => {}, []);
+
   const handleCardClick = (id) => {
     if (clickedIds.includes(id)) {
       clickedIds.length > bestScore && updateBestScore(clickedIds.length);
       updateIsGameOver();
-      updateClickedIds([]);
       return;
     }
     updateClickedIds((prev) => [...prev, id]);
+    setCardsData(shuffle(cardsData));
   };
 
   const cardsList = cardsData.map((cardData) => (
@@ -56,4 +59,20 @@ function Card({ src, name, onClick }) {
       <p>{name}</p>
     </div>
   );
+}
+
+function shuffle(array) {
+  let currentIndex = array.length;
+  let randomIndex;
+
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
 }
