@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: absolute;
   top: 50vh;
   left: 50vw;
@@ -13,13 +14,56 @@
   width: max-content;
 }
 .hideMsg {
-  transform: scaleY(0);
+  animation: hide-game-over 0.3s;
+  animation-fill-mode: forwards;
 }
 .showMsg {
-  transform: translate(-50%, -50%) scaleY(1);
+  animation: show-game-over 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes show-game-over {
+  from {
+    transform: translate(-50%, -50%) scaleY(0);
+  }
+  to {
+    transform: translate(-50%, -50%) scaleY(1);
+  }
+}
+
+@keyframes hide-game-over {
+  from {
+    transform: translate(-50%, -50%) scaleY(1);
+  }
+  to {
+    transform: translate(-50%, -50%) scaleY(0);
+  }
 }
 
 .gameLayout {
   display: grid;
   grid-template-rows: 100px 1fr;
+}
+
+.help-msg {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: var(--color-secondary);
+  padding: 10px;
+  border-radius: 15px;
+  border: var(--color-primary) 2px solid;
+}
+
+.help-msg p {
+  font-size: 20px;
+  border-top: 20px;
+}
+
+.help-msg hr {
+  color: none;
+  background-color: var(--color-primary);
+  height: 2px;
 }

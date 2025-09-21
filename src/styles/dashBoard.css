@@ -30,6 +30,18 @@
   color: var(--color-secondary);
   font-weight: 700;
   background-color: rgb(231, 176, 72);
+  cursor: pointer;
+  transition: transform 0.3s;
+  box-shadow: var(--shadow-on-white);
+}
+
+.dashBoard button:hover {
+  opacity: 80%;
+}
+
+.dashBoard button:active {
+  transform: scale(0.9);
+  box-shadow: none;
 }
 
 .dashBoard button:disabled {

@@ -8,6 +8,7 @@ export default function CardsContainer({
   updateBestScore,
   bestScore,
   isGameOver,
+  onShowHelp,
   updateIsGameOver,
 }) {
   const [cardsData, setCardsData] = useState([]);
@@ -46,7 +47,11 @@ export default function CardsContainer({
   ));
 
   return (
-    <div className={isGameOver ? 'container onGameOver' : 'container'}>
+    <div
+      className={
+        isGameOver || onShowHelp ? 'container onGameOver' : 'container'
+      }
+    >
       {cardsList}
     </div>
   );

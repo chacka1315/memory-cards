@@ -17,6 +17,37 @@
   display: grid;
   grid-template-rows: 1fr 50px;
   border-radius: 10px;
+  cursor: pointer;
+  box-shadow: var(--shadow-on-white);
+  transform: scale(1);
+}
+
+.card:hover {
+  box-shadow: none;
+}
+
+.card:active {
+  box-shadow: none;
+  animation: click-card 0.3s;
+}
+
+@keyframes click-card {
+  from {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.95);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 .card img {
   padding: 10px;
