@@ -26,7 +26,7 @@ body {
   --color-tertiary: #faf3f3;
   --shadow-on-white: rgba(0, 0, 0, 0.3) 0px 2px 4px 0px;
   --font-family: 'Lexend';
-  --card-font-size: 30px;
+  --card-font-size: 2em;
 }
 
 body {
@@ -35,4 +35,5 @@ body {
     system-ui,
     -apple-system,
     sans-serif;
+  background-color: var(--color-tertiary);
 }

@@ -1,4 +1,5 @@
-.gameOverMsg {
+.gameOverMsg,
+.gameWinMsg {
   font-size: 4rem;
   font-weight: 900;
   color: var(--color-primary);
@@ -13,6 +14,7 @@
   transform: translate(-50%, -50%);
   width: max-content;
 }
+
 .hideMsg {
   animation: hide-game-over 0.3s;
   animation-fill-mode: forwards;
@@ -20,6 +22,7 @@
 .showMsg {
   animation: show-game-over 0.3s;
   animation-fill-mode: forwards;
+  z-index: 1;
 }
 
 @keyframes show-game-over {
@@ -34,9 +37,19 @@
 @keyframes hide-game-over {
   from {
     transform: translate(-50%, -50%) scaleY(1);
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0;
   }
   to {
     transform: translate(-50%, -50%) scaleY(0);
+    opacity: 0;
   }
 }
 
@@ -44,7 +57,6 @@
   display: grid;
   grid-template-rows: 100px 1fr;
 }
-
 .help-msg {
   position: absolute;
   top: 50vh;
@@ -55,8 +67,13 @@
   padding: 10px;
   border-radius: 15px;
   border: var(--color-primary) 2px solid;
+  max-width: 700px;
+  opacity: 1;
 }
-
+.fixeBoard {
+  position: fixed;
+  width: 100vw;
+}
 .help-msg p {
   font-size: 20px;
   border-top: 20px;
@@ -66,4 +83,28 @@
   color: none;
   background-color: var(--color-primary);
   height: 2px;
+}
+
+.help-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateY(-100%);
+  background: none;
+  border: none;
+}
+
+.help-close-btn img {
+  width: 40px;
+  height: 40px;
+}
+@media (max-width: 650px) {
+  .help-msg {
+    width: 95vw;
+  }
+
+  .gameOverMsg,
+  .gameWinMsg {
+    font-size: 2.5rem;
+  }
 }

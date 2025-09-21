@@ -9,32 +9,38 @@
   box-shadow: var(--shadow-on-white);
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 
 #logo {
   font-size: 2rem;
   display: flex;
+  align-items: center;
 }
 
 #logo svg {
   fill: rgb(231, 176, 72);
   width: 100px;
+  height: 100px;
 }
 
 .dashBoard button {
-  width: 100px;
-  font-size: 20px;
-  border: none;
-  height: 50px;
-  border-radius: 10px;
-  color: var(--color-secondary);
-  font-weight: 700;
-  background-color: rgb(231, 176, 72);
   cursor: pointer;
   transition: transform 0.3s;
   box-shadow: var(--shadow-on-white);
+  border: none;
+  color: var(--color-secondary);
+  font-weight: 700;
 }
 
+button.restart {
+  max-width: 100px;
+  font-size: 20px;
+  height: auto;
+  border-radius: 10px;
+  background-color: rgb(231, 176, 72);
+  padding: 10px 15px;
+}
 .dashBoard button:hover {
   opacity: 80%;
 }
@@ -59,4 +65,178 @@
   align-items: center;
   background-color: var(--color-primary);
   border: var(--color-secondary) 4px solid;
+}
+.scores {
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.helpNvolume {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.dashBoard .volumeBtn {
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: none;
+}
+.dashBoard .volumeBtn svg {
+  width: 100%;
+  fill: var(--color-secondary);
+}
+
+.dashBoard .volumeBtn.mute {
+  opacity: 50%;
+}
+.dashBoard label {
+  font-size: 1.2rem;
+}
+
+.dashBoard input {
+  border: 2px solid var(--color-primary);
+  height: 30px;
+  font-size: inherit;
+  font-family: inherit;
+  border-radius: 5px;
+}
+
+.dashBoard input:focus {
+  outline: none;
+  border: 2px solid rgb(231, 176, 72);
+}
+.gameParam {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+button.menuBtn {
+  box-shadow: none;
+  padding: 0;
+  max-width: 50px;
+  background-color: var(--color-primary);
+  border: none;
+}
+.menuBtn svg {
+  height: 50px;
+  width: 50px;
+  fill: var(--color-secondary);
+}
+
+.menu {
+  width: 300px;
+  height: auto;
+  position: absolute;
+  background-color: var(--color-primary);
+  left: 0;
+  top: 100px;
+  padding: 20px;
+  transition: transform 0.3s;
+  transform: translateX(0);
+}
+.menu div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.menu label {
+  font-size: 20px;
+}
+
+.menu div:last-child {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+.menu input {
+  font-family: inherit;
+  font-size: inherit;
+  max-width: 75px;
+}
+
+.showMenu {
+  display: block;
+  transform-origin: top;
+  animation: show-menu 0.3s;
+}
+
+.hideMenu {
+  display: none;
+  animation: hide-menu 0.3s;
+}
+
+@keyframes show-menu {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (max-width: 650px) {
+  #logo {
+    font-size: 11px;
+  }
+
+  #logo svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .dashBoard {
+    font-size: 20px;
+    padding: 0 20px;
+  }
+
+  .dashBoard .gameParam {
+    display: none;
+  }
+  .helpNvolume {
+    display: none;
+  }
+
+  .dashBoard .scores {
+    font-size: 14px;
+  }
+
+  .dashBoard button.restart {
+    font-size: 12px;
+    padding: 5px 6px;
+  }
+
+  .menuBtn svg {
+    height: 30px;
+    width: 30px;
+  }
+}
+
+@media (min-width: 651px) and (max-width: 1250px) {
+  #logo {
+    font-size: 1.5rem;
+  }
+  #logo svg {
+    width: 60px;
+    height: 60px;
+  }
+  .dashBoard .gameParam {
+    display: none;
+  }
+
+  .helpNvolume {
+    display: none;
+  }
+}
+
+@media (min-width: 1251px) {
+  .menuBtn {
+    display: none;
+  }
 }
