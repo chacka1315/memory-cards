@@ -16,10 +16,12 @@
 }
 
 .hideMsg {
+  visibility: hidden;
   animation: hide-game-over 0.3s;
   animation-fill-mode: forwards;
 }
 .showMsg {
+  visibility: visible;
   animation: show-game-over 0.3s;
   animation-fill-mode: forwards;
   z-index: 1;
@@ -40,13 +42,10 @@
     opacity: 1;
   }
 
-  25% {
-    opacity: 0.3;
-  }
-
-  50% {
+  10% {
     opacity: 0;
   }
+
   to {
     transform: translate(-50%, -50%) scaleY(0);
     opacity: 0;

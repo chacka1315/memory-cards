@@ -119,7 +119,7 @@ function LoadingButton({ isLoading }) {
         isLoading ? 'loadingBtn showLoadingBtn' : 'loadingBtn hideLoadingBtn'
       }
     >
-      <i class="fa fa-spinner fa-spin"></i>Loading
+      <i className="fa fa-spinner fa-spin"></i>Loading
     </button>
   );
 }
