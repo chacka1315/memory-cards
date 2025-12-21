@@ -32,5 +32,26 @@ The game uses React state hooks (useState, useEffect) and properly handles side 
 - Updating state safely without re-render loops
 - Managing complex state transitions from user interactions
 
+## 📁 Project structure
+```
+.
+├── README.md
+├── dist/
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── public/
+├── src
+│   ├── App.css
+│   ├── App.jsx
+│   ├── assets/
+│   ├── components/
+│   ├── index.css
+│   ├── main.jsx
+│   ├── services
+│   └── styles/
+└── vite.config.js
+```
 ## 🏁 Conclusion
 The Pokémon Memory Card project helped me refine my skills in React hooks (useEffect, useState), fetching and integrating API data, and managing asynchronous logic in an interactive UI. Working with real API data marked an important step toward building dynamic, data-driven applications in React.
