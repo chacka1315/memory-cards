@@ -1,12 +1,35 @@
-# React + Vite
+# Pokémon Memory Card Game (Jeu de mémorisation) ⚛️
+A full responsive React memory card game built with React hooks and external API data fetching, developed as part of The Odin Project JavaScript/React curriculum. This project demonstrates the use of side effects (useEffect), state management, and API integration to build an interactive, data-driven frontend. 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Project Summary
+This application presents a memory card matching game where:
+- Pokémon data (images and names) are fetched from a public API
+- Cards are displayed in a randomized layout each game
+- The player selects cards to find matching pairs
+- The game tracks score and best score
+- The layout updates dynamically based on user interactions and API data
+The game uses React state hooks (useState, useEffect) and properly handles side effects to fetch and manage asynchronous data. 
 
-Currently, two official plugins are available:
+ ## 🎨 Live preview
+ [Try the game (Jouer)](https://testyourmemo.netlify.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✨ Key Concepts & Learnings
+1. 🌐 API Consumption & Asynchronous Logic
+- Fetching data from an external API (e.g., Pokémon API)
+- Handling API responses and storing them in component state
+- Updating UI based on fetched JSON data
+- Displaying dynamic images and info from real API data 
 
-## Expanding the ESLint configuration
+2. 📌 Managing Side Effects with useEffect
+- Using useEffect to trigger API fetch on component mount
+- Understanding dependency arrays to control when effects run
+- Separating side-effect logic from render logic
+- Cleaning up or re-fetching when needed for replay functionality 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. 📊 State Management
+- Using useState to track game state, score, and game progress
+- Updating state safely without re-render loops
+- Managing complex state transitions from user interactions
+
+## 🏁 Conclusion
+The Pokémon Memory Card project helped me refine my skills in React hooks (useEffect, useState), fetching and integrating API data, and managing asynchronous logic in an interactive UI. Working with real API data marked an important step toward building dynamic, data-driven applications in React.
