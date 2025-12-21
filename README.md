@@ -13,7 +13,8 @@ The game uses React state hooks (useState, useEffect) and properly handles side 
  ## 🎨 Live preview
  [Try the game (Jouer)](https://testyourmemo.netlify.app/)
 
-✨ Key Concepts & Learnings
+
+## ✨ Key Concepts & Learnings
 1. 🌐 API Consumption & Asynchronous Logic
 - Fetching data from an external API (e.g., Pokémon API)
 - Handling API responses and storing them in component state
