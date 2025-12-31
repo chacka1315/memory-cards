@@ -1,6 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import getImages from '../services/images-data';
 import '../styles/cardContainer.css';
+import type {
+  CardContainerProps,
+  CardProps,
+} from '../types/CardsContainerTypes';
+import type { CardData } from '../types/images-data';
 
 export default function CardsContainer({
   updateClickedIds,
@@ -14,9 +19,9 @@ export default function CardsContainer({
   canPlaySound,
   cardCount,
   cardSize,
-}) {
-  const [cardsData, setCardsData] = useState([]);
-  const [visibleCard, setVisibleCard] = useState([]);
+}: CardContainerProps) {
+  const [cardsData, setCardsData] = useState<CardData[]>([]);
+  const [visibleCard, setVisibleCard] = useState<CardData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const clickSound = useMemo(() => new Audio('/click-sound.mp3'), []);
   const gameOverSound = useMemo(() => new Audio('/game-over-sound.mp3'), []);
@@ -31,7 +36,9 @@ export default function CardsContainer({
       }
     });
 
-    return () => (ignore = true);
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -39,7 +46,7 @@ export default function CardsContainer({
     setVisibleCard(newVisible);
   }, [cardCount, cardsData]);
 
-  const handleCardClick = (id) => {
+  const handleCardClick = (id: number) => {
     canPlaySound && clickSound.play();
     if (clickedIds.includes(id)) {
       canPlaySound && gameOverSound.play();
@@ -76,7 +83,7 @@ export default function CardsContainer({
   );
 }
 
-function Card({ src, name, onClick, cardSize }) {
+function Card({ src, name, onClick, cardSize }: CardProps) {
   const cardFontSize = name.length > 10 ? 0.1 * cardSize : 0.15 * cardSize;
   return (
     <div
@@ -96,9 +103,9 @@ function Card({ src, name, onClick, cardSize }) {
   );
 }
 
-function shuffle(array) {
+function shuffle(array: any[]) {
   let currentIndex = array.length;
-  let randomIndex;
+  let randomIndex: number;
 
   while (currentIndex != 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -112,7 +119,7 @@ function shuffle(array) {
   return array;
 }
 
-function LoadingButton({ isLoading }) {
+function LoadingButton({ isLoading }: { isLoading: boolean }) {
   return (
     <button
       className={

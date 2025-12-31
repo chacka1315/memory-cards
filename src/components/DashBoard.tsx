@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import React, { useState, type ChangeEvent } from 'react';
 import '../styles/dashBoard.css';
+import type { DashboardProps } from '../types/DashBoardTypes';
+
 export default function DashBoard({
   score,
   bestScore,
@@ -13,19 +15,23 @@ export default function DashBoard({
   cardCount,
   updateCardSize,
   cardSize,
-}) {
-  const [countInputValue, setCountInputValue] = useState(cardCount);
-  const [sizeInputValue, setSizeInputValue] = useState(cardSize);
+}: DashboardProps) {
+  const [countInputValue, setCountInputValue] = useState<number | string>(
+    cardCount
+  );
+  const [sizeInputValue, setSizeInputValue] = useState<number | string>(
+    cardSize
+  );
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const handleCardCount = (e) => {
+  const handleCardCount = (e: ChangeEvent<HTMLInputElement>) => {
     setCountInputValue(e.target.value);
     const count = Number(e.target.value);
     const isNumber = typeof count === 'number';
     if (count >= 4 && count <= 100 && isNumber) updateCardCount(count);
   };
 
-  const handleCardSize = (e) => {
+  const handleCardSize = (e: ChangeEvent<HTMLInputElement>) => {
     setSizeInputValue(e.target.value);
     const size = Number(e.target.value);
     const isNumber = typeof size === 'number';
@@ -158,6 +164,12 @@ export default function DashBoard({
   );
 }
 
-function Menu({ children, className }) {
+function Menu({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className: string;
+}) {
   return <div className={className}>{children}</div>;
 }

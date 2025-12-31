@@ -1,8 +1,10 @@
-export default async function getImages(count) {
-  let pokemonIds = [];
-  let cleanedData = [];
+import type { CardData, KnownFetchData } from '../types/images-data.ts';
 
-  const cleanData = (data) => {
+export default async function getImages(count: number) {
+  let pokemonIds: number[] = [];
+  let cleanedData: CardData[] = [];
+
+  const cleanData = (data: KnownFetchData): CardData => {
     return {
       id: data.id,
       name: capitalize(data.name),
@@ -33,7 +35,7 @@ export default async function getImages(count) {
   return cleanedData;
 }
 
-function capitalize(string) {
+function capitalize(string: string): string {
   if (typeof string !== 'string' || string.length === 0) {
     return string;
   }

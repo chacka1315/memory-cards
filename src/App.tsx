@@ -1,17 +1,18 @@
 import { useState, useMemo, useEffect } from 'react';
 import './App.css';
-import DashBoard from './components/DashBoard';
-import CardsContainer from './components/CardsContainer';
+import DashBoard from './components/DashBoard.tsx';
+import CardsContainer from './components/CardsContainer.tsx';
 import closeButton from './assets/close-button.svg';
 
 function App() {
-  const [clickedIds, setClickedIds] = useState([]);
+  const [clickedIds, setClickedIds] = useState<number[]>([]);
   const [bestScore, setBestScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
   const [inShowHelp, setInShowHelp] = useState(false);
   const [canPlaySound, setCanPlaySound] = useState(false);
   const [cardCount, setCardCount] = useState(10);
   const [cardSize, setCardSize] = useState(100);
+
   const gameSound = useMemo(() => new Audio('/game-sound.mp3'), []);
   gameSound.loop = true;
 
@@ -26,7 +27,9 @@ function App() {
     setClickedIds([]);
     setIsGameOver(false);
   };
+
   const isWin = clickedIds.length === cardCount;
+
   return (
     <div className={isGameOver ? 'gameLayout fixeBoard' : 'gameLayout'}>
       <DashBoard
@@ -65,7 +68,13 @@ function App() {
     </div>
   );
 }
-function GameOverMsg({ isGameOver, score }) {
+
+type GameOverMsgProps = {
+  isGameOver: boolean;
+  score: number;
+};
+
+function GameOverMsg({ isGameOver, score }: GameOverMsgProps) {
   return (
     <div
       className={isGameOver ? 'gameOverMsg showMsg ' : ' gameOverMsg hideMsg'}
@@ -76,7 +85,12 @@ function GameOverMsg({ isGameOver, score }) {
   );
 }
 
-function HelpMsg({ inShowHelp, toggleShowHelp }) {
+type HelpMsgProps = {
+  inShowHelp: boolean;
+  toggleShowHelp: () => void;
+};
+
+function HelpMsg({ inShowHelp, toggleShowHelp }: HelpMsgProps) {
   return (
     <div className={inShowHelp ? 'help-msg showMsg' : 'help-msg hideMsg'}>
       <button type="button" className="help-close-btn" onClick={toggleShowHelp}>
@@ -97,7 +111,12 @@ function HelpMsg({ inShowHelp, toggleShowHelp }) {
   );
 }
 
-function WinMsg({ isWin, score, cardCount }) {
+type WinMsgProps = {
+  isWin: boolean;
+  score: number;
+  cardCount: number;
+};
+function WinMsg({ isWin, score, cardCount }: WinMsgProps) {
   return (
     <div className={isWin ? 'gameWinMsg showMsg ' : ' gameWinMsg hideMsg'}>
       <p>Perfect...</p>
