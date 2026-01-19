@@ -33,20 +33,10 @@
 
 @keyframes click-card {
   from {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(0.95);
-  }
-
-  50% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(0.95);
+    transform: scaleY(1);
   }
   to {
-    transform: scale(1);
+    transform: scaleY(0.8);
   }
 }
 .card img {

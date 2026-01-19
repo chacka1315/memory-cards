@@ -1,64 +1,72 @@
-import { useState, useEffect, useMemo } from 'react';
-import getImages from '../services/images-data';
+import { useEffect, useMemo } from 'react';
 import '../styles/cardContainer.css';
-import type {
-  CardContainerProps,
-  CardProps,
-} from '../types/CardsContainerTypes';
-import type { CardData } from '../types/images-data';
+import type { CardProps } from '../types/CardsContainerTypes';
+import { useQuery } from '@tanstack/react-query';
+import { cardsOptions } from '../queryOptions';
+import useStore from '../store/store';
+import { useShallow } from 'zustand/react/shallow';
 
-export default function CardsContainer({
-  updateClickedIds,
-  clickedIds,
-  updateBestScore,
-  bestScore,
-  isGameOver,
-  isWin,
-  inShowHelp,
-  updateIsGameOver,
-  canPlaySound,
-  cardCount,
-  cardSize,
-}: CardContainerProps) {
-  const [cardsData, setCardsData] = useState<CardData[]>([]);
-  const [visibleCard, setVisibleCard] = useState<CardData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+export default function CardsContainer() {
   const clickSound = useMemo(() => new Audio('/click-sound.mp3'), []);
   const gameOverSound = useMemo(() => new Audio('/game-over-sound.mp3'), []);
 
-  useEffect(() => {
-    let ignore = false;
-    setIsLoading(true);
-    getImages(100).then((data) => {
-      if (!ignore) {
-        setCardsData(data);
-        setIsLoading(false);
-      }
-    });
+  const {
+    isGameOver,
+    canPlaySound,
+    cardCount,
+    cardSize,
+    setVisibleCards,
+    visibleCards,
+    clickedIds,
+    setBestScore,
+    bestScore,
+    setGameOver,
+    addClickedId,
+    inShowHelp,
+  } = useStore(
+    useShallow((s) => ({
+      isGameOver: s.isGameOver,
+      canPlaySound: s.canPlaySound,
+      cardCount: s.cardCount,
+      cardSize: s.cardSize,
+      addClickedId: s.addClickedId,
+      setVisibleCards: s.setVisibleCards,
+      visibleCards: s.visibleCards,
+      clickedIds: s.clickedIds,
+      setBestScore: s.setBestScore,
+      bestScore: s.bestScore,
+      setGameOver: s.setGameOver,
+      inShowHelp: s.inShowHelp,
+    }))
+  );
 
-    return () => {
-      ignore = true;
-    };
-  }, []);
+  const { data: cardsData, isLoading } = useQuery({
+    ...cardsOptions(100),
+  });
 
   useEffect(() => {
-    const newVisible = cardsData.slice(0, cardCount);
-    setVisibleCard(newVisible);
+    if (cardsData) {
+      const newVisible = cardsData.slice(0, cardCount);
+      setVisibleCards(newVisible);
+    }
   }, [cardCount, cardsData]);
 
   const handleCardClick = (id: number) => {
+    clickSound.currentTime = 0;
     canPlaySound && clickSound.play();
     if (clickedIds.includes(id)) {
       canPlaySound && gameOverSound.play();
-      clickedIds.length > bestScore && updateBestScore(clickedIds.length);
-      updateIsGameOver();
+      clickedIds.length > bestScore && setBestScore(clickedIds.length);
+      setGameOver(true);
       return;
     }
-    updateClickedIds((prev) => [...prev, id]);
-    setVisibleCard(shuffle([...visibleCard]));
+    addClickedId(id);
+    setVisibleCards(shuffle([...visibleCards]));
   };
 
-  const cardsList = visibleCard.map((cardData) => (
+  const isWin = clickedIds.length === cardCount;
+
+  const cardsList = visibleCards.map((cardData) => (
     <Card
       src={cardData.first_src ? cardData.first_src : cardData.second_src}
       name={cardData.name}

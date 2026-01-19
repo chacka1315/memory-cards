@@ -1,34 +1,42 @@
 import React, { useState, type ChangeEvent } from 'react';
 import '../styles/dashBoard.css';
-import type { DashboardProps } from '../types/DashBoardTypes';
+import useStore from '../store/store';
+import { useShallow } from 'zustand/react/shallow';
 
-export default function DashBoard({
-  score,
-  bestScore,
-  isGameOver,
-  isWin,
-  restart,
-  canPlaySound,
-  toggleShowHelp,
-  togglePlaySound,
-  updateCardCount,
-  cardCount,
-  updateCardSize,
-  cardSize,
-}: DashboardProps) {
+export default function DashBoard() {
+  const state = useStore(
+    useShallow((s) => ({
+      isGameOver: s.isGameOver,
+      canPlaySound: s.canPlaySound,
+      bestScore: s.bestScore,
+      toggleHelp: s.toggleHelp,
+      toggleSound: s.toggleSound,
+      cardCount: s.cardCount,
+      cardSize: s.cardSize,
+      restart: s.restart,
+      setCardCount: s.setCardCount,
+      setCardSize: s.setCardSize,
+      clickedIds: s.clickedIds,
+      setMenuIsOpen: s.setMenuIsOpen,
+      menuIsOpen: s.menuIsOpen,
+    }))
+  );
+
   const [countInputValue, setCountInputValue] = useState<number | string>(
-    cardCount
+    state.cardCount
   );
+
   const [sizeInputValue, setSizeInputValue] = useState<number | string>(
-    cardSize
+    state.cardSize
   );
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const handleCardCount = (e: ChangeEvent<HTMLInputElement>) => {
     setCountInputValue(e.target.value);
     const count = Number(e.target.value);
     const isNumber = typeof count === 'number';
-    if (count >= 4 && count <= 100 && isNumber) updateCardCount(count);
+    if (count >= 4 && count <= 100 && isNumber) {
+      state.setCardCount(count);
+    }
   };
 
   const handleCardSize = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,14 +44,12 @@ export default function DashBoard({
     const size = Number(e.target.value);
     const isNumber = typeof size === 'number';
     if (size >= 50 && size <= 500 && isNumber) {
-      updateCardSize(size);
+      state.setCardSize(size);
     }
   };
 
-  const toggleMenu = () => {
-    setMenuIsOpen(!menuIsOpen);
-  };
-
+  const toggleMenu = () => state.setMenuIsOpen(!state.menuIsOpen);
+  const isWin = state.clickedIds.length === state.cardCount;
   return (
     <header className="dashBoard">
       <button type="button" className="menuBtn" onClick={toggleMenu}>
@@ -62,7 +68,7 @@ export default function DashBoard({
             max="30"
             value={countInputValue}
             onChange={handleCardCount}
-            disabled={isGameOver || isWin}
+            disabled={state.isGameOver || isWin}
           />
         </label>
         <label>
@@ -73,7 +79,7 @@ export default function DashBoard({
             max="500"
             value={sizeInputValue}
             onChange={handleCardSize}
-            disabled={isGameOver || isWin}
+            disabled={state.isGameOver || isWin}
           />
         </label>
       </div>
@@ -89,24 +95,28 @@ export default function DashBoard({
       <button
         className="restart"
         type="button"
-        onClick={restart}
-        disabled={!isGameOver && !isWin}
+        onClick={state.restart}
+        disabled={!state.isGameOver && !isWin}
       >
         Restart
       </button>
       <div className="scores">
-        <p>Score : {score}</p>
-        <p>Best score : {bestScore}</p>
+        <p>Score : {state.clickedIds.length}</p>
+        <p>Best score : {state.bestScore}</p>
       </div>
 
       <div className="helpNvolume">
-        <button type="button" className="gameDetails" onClick={toggleShowHelp}>
+        <button
+          type="button"
+          className="gameDetails"
+          onClick={state.toggleHelp}
+        >
           ?
         </button>
         <button
           type="button"
-          className={canPlaySound ? 'volumeBtn loud' : 'volumeBtn mute'}
-          onClick={togglePlaySound}
+          className={state.canPlaySound ? 'volumeBtn loud' : 'volumeBtn mute'}
+          onClick={state.toggleSound}
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <title>volume</title>
@@ -115,7 +125,7 @@ export default function DashBoard({
         </button>
       </div>
 
-      <Menu className={menuIsOpen ? 'showMenu menu' : 'hideMenu'}>
+      <Menu className={state.menuIsOpen ? 'showMenu menu' : 'hideMenu'}>
         <div>
           <label htmlFor="cardCount">Cards count </label>
           <input
@@ -125,7 +135,7 @@ export default function DashBoard({
             max="30"
             value={countInputValue}
             onChange={handleCardCount}
-            disabled={isGameOver || isWin}
+            disabled={state.isGameOver || isWin}
           />
         </div>
         <div>
@@ -137,21 +147,21 @@ export default function DashBoard({
             max="500"
             value={sizeInputValue}
             onChange={handleCardSize}
-            disabled={isGameOver || isWin}
+            disabled={state.isGameOver || isWin}
           />
         </div>
         <div className="helpNvolume">
           <button
             type="button"
             className="gameDetails"
-            onClick={toggleShowHelp}
+            onClick={state.toggleHelp}
           >
             ?
           </button>
           <button
             type="button"
-            className={canPlaySound ? 'volumeBtn loud' : 'volumeBtn mute'}
-            onClick={togglePlaySound}
+            className={state.canPlaySound ? 'volumeBtn loud' : 'volumeBtn mute'}
+            onClick={state.toggleSound}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <title>volume</title>

@@ -1,17 +1,18 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 import './App.css';
 import DashBoard from './components/DashBoard.tsx';
 import CardsContainer from './components/CardsContainer.tsx';
 import closeButton from './assets/close-button.svg';
+import useStore from './store/store.ts';
+import { useShallow } from 'zustand/react/shallow';
 
 function App() {
-  const [clickedIds, setClickedIds] = useState<number[]>([]);
-  const [bestScore, setBestScore] = useState(0);
-  const [isGameOver, setIsGameOver] = useState(false);
-  const [inShowHelp, setInShowHelp] = useState(false);
-  const [canPlaySound, setCanPlaySound] = useState(false);
-  const [cardCount, setCardCount] = useState(10);
-  const [cardSize, setCardSize] = useState(100);
+  const { canPlaySound, isGameOver } = useStore(
+    useShallow((s) => ({
+      isGameOver: s.isGameOver,
+      canPlaySound: s.canPlaySound,
+    }))
+  );
 
   const gameSound = useMemo(() => new Audio('/game-sound.mp3'), []);
   gameSound.loop = true;
@@ -23,58 +24,21 @@ function App() {
     return () => gameSound.pause();
   }, [canPlaySound, gameSound]);
 
-  const handleRestart = () => {
-    setClickedIds([]);
-    setIsGameOver(false);
-  };
-
-  const isWin = clickedIds.length === cardCount;
-
   return (
     <div className={isGameOver ? 'gameLayout fixeBoard' : 'gameLayout'}>
-      <DashBoard
-        score={clickedIds.length}
-        bestScore={bestScore}
-        isGameOver={isGameOver}
-        isWin={isWin}
-        restart={handleRestart}
-        canPlaySound={canPlaySound}
-        toggleShowHelp={() => setInShowHelp(!inShowHelp)}
-        togglePlaySound={() => setCanPlaySound(!canPlaySound)}
-        updateCardCount={setCardCount}
-        cardCount={cardCount}
-        updateCardSize={setCardSize}
-        cardSize={cardSize}
-      />
-      <GameOverMsg isGameOver={isGameOver} score={clickedIds.length} />
-      <WinMsg score={clickedIds.length} isWin={isWin} cardCount={cardCount} />
-      <HelpMsg
-        inShowHelp={inShowHelp}
-        toggleShowHelp={() => setInShowHelp(!inShowHelp)}
-      />
-      <CardsContainer
-        updateClickedIds={setClickedIds}
-        clickedIds={clickedIds}
-        updateBestScore={setBestScore}
-        bestScore={bestScore}
-        isGameOver={isGameOver}
-        isWin={isWin}
-        inShowHelp={inShowHelp}
-        updateIsGameOver={() => setIsGameOver(true)}
-        canPlaySound={canPlaySound}
-        cardCount={cardCount}
-        cardSize={cardSize}
-      />
+      <DashBoard />
+      <GameOverMsg />
+      <WinMsg />
+      <HelpMsg />
+      <CardsContainer />
     </div>
   );
 }
 
-type GameOverMsgProps = {
-  isGameOver: boolean;
-  score: number;
-};
+function GameOverMsg() {
+  const isGameOver = useStore((s) => s.isGameOver);
+  const score = useStore((s) => s.clickedIds.length);
 
-function GameOverMsg({ isGameOver, score }: GameOverMsgProps) {
   return (
     <div
       className={isGameOver ? 'gameOverMsg showMsg ' : ' gameOverMsg hideMsg'}
@@ -85,15 +49,12 @@ function GameOverMsg({ isGameOver, score }: GameOverMsgProps) {
   );
 }
 
-type HelpMsgProps = {
-  inShowHelp: boolean;
-  toggleShowHelp: () => void;
-};
-
-function HelpMsg({ inShowHelp, toggleShowHelp }: HelpMsgProps) {
+function HelpMsg() {
+  const inShowHelp = useStore((s) => s.inShowHelp);
+  const toggleHelp = useStore((s) => s.toggleHelp);
   return (
     <div className={inShowHelp ? 'help-msg showMsg' : 'help-msg hideMsg'}>
-      <button type="button" className="help-close-btn" onClick={toggleShowHelp}>
+      <button type="button" className="help-close-btn" onClick={toggleHelp}>
         <img src={closeButton} alt="Close button" />
       </button>
       <h2>Welcome to Pockecard</h2>
@@ -111,12 +72,10 @@ function HelpMsg({ inShowHelp, toggleShowHelp }: HelpMsgProps) {
   );
 }
 
-type WinMsgProps = {
-  isWin: boolean;
-  score: number;
-  cardCount: number;
-};
-function WinMsg({ isWin, score, cardCount }: WinMsgProps) {
+function WinMsg() {
+  const score = useStore((s) => s.clickedIds.length);
+  const isWin = useStore((s) => s.cardCount === s.clickedIds.length);
+  const cardCount = useStore((s) => s.cardCount);
   return (
     <div className={isWin ? 'gameWinMsg showMsg ' : ' gameWinMsg hideMsg'}>
       <p>Perfect...</p>
